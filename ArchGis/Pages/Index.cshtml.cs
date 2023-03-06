@@ -7,16 +7,20 @@ namespace ArchGis.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IEsriClient _esriClient;
-        public string Token { get; set; }
+        public string Token { get; set; } 
         public IndexModel(ILogger<IndexModel> logger, IEsriClient esriClient)
         {
             _logger = logger;
             _esriClient = esriClient;
         }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-
+            var result  = await _esriClient.GetToken();
+            if (result != null)
+            {
+                Token = result.AccessToken;
+            }
         }
     }
 }

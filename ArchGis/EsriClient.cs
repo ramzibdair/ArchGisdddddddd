@@ -13,7 +13,7 @@ namespace ArchGis
     public class EsriClient : IEsriClient
     {
         private readonly HttpClient _httpClient;
-        private readonly string tokenUrl = "https://www.arcgis.com/sharing/rest/oauth2/token";
+        private readonly string tokenUrl = "https://www.arcgis.com/sharing/rest/oauth2/token"; //update
         private readonly string clientId = "add_client_id"; // update
         private readonly string clientSecret = "add_client_secret"; // update
         private readonly string grantType = "client_credentials";
