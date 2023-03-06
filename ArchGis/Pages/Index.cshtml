@@ -1,0 +1,83 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Display a map</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script>
+        require(["esri/config", "esri/Map", "esri/layers/VectorTileLayer", "esri/layers/FeatureLayer", "esri/layers/TileLayer", "esri/Basemap", "esri/views/MapView"], function (esriConfig, Map, VectorTileLayer, FeatureLayer, TileLayer, Basemap, MapView) {
+
+
+            const SatelliteUrl = "https://gis.neom.com/hosting/rest/services/Hosted/Spot7_Oct2021/MapServer";
+
+            const layer = new FeatureLayer({
+                // URL to the service
+                url: "https://gis.neom.com/hosting/rest/services/Hosted/ensemble_core/FeatureServer/0"
+            });
+
+
+            const tileSatelliteBaseMap = new TileLayer({
+                url: SatelliteUrl
+
+
+            });
+
+            var myBasemap = new Basemap({
+                baseLayers: [tileSatelliteBaseMap]
+            });
+
+            const map = new Map({
+                basemap: myBasemap
+
+            });
+
+            debugger;
+             esriConfig.request.interceptors.push({
+                urls: "https://gis.neom.com/hosting/rest/services/Hosted/ensemble_core/FeatureServer/0",
+                before: function (params) {
+                    debugger;
+                    params.requestOptions.query = params.requestOptions.query || {};
+                    params.requestOptions.query.token = "nXKRnEHxOLrxxxxxxxxxxxxxxtU4amjZzsrI.";//Get the token from https://token.slip.wa.gov.au/arcgis/tokens/
+                },
+            });
+
+            map.add(layer)
+
+
+
+            const view = new MapView({
+                map: map,
+                center: [35.134, 28.379], // Longitude, latitude
+                zoom: 2, // Zoom level
+                container: "viewDiv" // Div element
+            });
+
+        });
+    </script>
+
+
+
+</head>
+<body>
+    <div id="viewDiv"></div>
+</body>
+</html>
